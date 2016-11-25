@@ -1,4 +1,5 @@
 This tool will let you to test how much active/inactive memory is used for Page Cache. It supports **ONLY LINUX**, because it uses `/proc` filesystem.
+I was inspired by for experiment by Roman Gushchin and his presentation https://habrahabr.ru/company/yandex/blog/231957/https://habrahabr.ru/company/yandex/blog/231957/
 For demonstration, I recommend you to have VM with no load 
 To make a proper demonstration I recommend you to do following steps:  
 # Preparations:
