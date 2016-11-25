@@ -14,9 +14,12 @@ echo 3 > /proc/sys/vm/drop_caches
 ```
 4) Run script demonstating mapping these file in Page Cache (in separate terminal):
 ```
-watch "echo HUGE; vmtouch ./huge ; echo LARGE ; vmtouch ./large"
+terminal1$ watch "echo HUGE; vmtouch ./huge ; echo LARGE ; vmtouch ./large"
 ```
-5) Run `mem.sh` in separate terminal
+5) Run in separate terminal
+```
+terminal2$ mem.sh 
+```
 # Demonstration:
 After you flushed all caches, you shold see active and INACTIVE = 0
 1) Read large file. You will to see INACTIVE growing. Also `vmtouch`  
