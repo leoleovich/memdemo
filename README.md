@@ -22,7 +22,7 @@ terminal2$ watch "echo HUGE; vmtouch ./huge ; echo LARGE ; vmtouch ./large"
 terminal3$ mem.sh 
 ```
 # Demonstration:
-After you flushed all caches, you shold see active and INACTIVE = 0
+After you flushed all caches, you shold see active and INACTIVE = 0  
 1) Read large file. You will to see INACTIVE growing. Also `vmtouch`  
 ```
 terminal1$ cat ./large > /dev/null
