@@ -1,27 +1,62 @@
-This tool will let you to test how much active/inactive memory is used for Page Cache. It supports **ONLY LINUX**, because it uses `/proc` filesystem.  
-I was inspired by for experiment by Roman Gushchin and his presentation https://habrahabr.ru/company/yandex/blog/231957/https://habrahabr.ru/company/yandex/blog/231957/  
-For demonstration, I recommend you to have VM with no load.  
-To make a proper demonstration I recommend you to do following steps:  
-# Preparations:
+
+This tool will let you to make multiple experiments to understand, how memory management under Linux is working.
+It contains experiments:
+1) How to generate major pagefaults.  
+2) How much active/inactive memory is used for Page Cache. It supports **ONLY LINUX**, because it uses `/proc` filesystem.  
+I was inspired for the experiment by Roman Gushchin's presentation https://habrahabr.ru/company/yandex/blog/231957/ 
+For demonstration, I recommend you to have VM with no load/other services running.  
+
+# Basic
 1) Clone and compile `vmtouch` from here: https://github.com/hoytech/vmtouch
-2) Generate files (1GB, 4GB). The rule is simple: first file should be less, than total amount of memory, second - more.
+
+# Major Pagefault generator
+## Preparations:
+1) Compile pgmajfault.go:  
+```
+# Install go https://golang.org/doc/install
+terminal1$ go get golang.org/x/exp/mmap
+terminal1$ go build test.go
+```
+2) Generate small file in any place:  
+```
+terminal1$ echo Something > /tmp/test
+```
+3) Evict file pages from Page cache:  
+```
+terminal1$ vmtouch -e /tmp/test.txt
+```
+4) Run in separate terminal
+```
+terminal2$ mem.sh 
+```
+## Demonstration:
+1) Run pgmajfault with file as parameter
+```
+terminal1$ tmp/test.txt
+```
+2) Look at output on `mem.sh`. You should see "PAGEFAULT!" message  
+3) Repeat evicting of file from page cache and run pgmajfault again if you missed the output
+
+# Active/inactive memory
+## Preparations:
+1) Generate files (1GB, 4GB). The rule is simple: first file should be less, than total amount of memory, second - more.
 ```
 terminal1$ dd if=/dev/zero of=./large count=10240 bs=102400
 terminal1$ dd if=/dev/zero of=./huge count=40960 bs=102400
 ```
-3) Flush all caches:
+2) Flush all caches:
 ```
 terminal1$ echo 3 > /proc/sys/vm/drop_caches
 ```
-4) Run script demonstating mapping these file in Page Cache (in separate terminal):
+3) Run script demonstating mapping these file in Page Cache (in separate terminal):
 ```
 terminal2$ watch "echo HUGE; vmtouch ./huge ; echo LARGE ; vmtouch ./large"
 ```
-5) Run in separate terminal
+4) Run in separate terminal
 ```
 terminal3$ mem.sh 
 ```
-# Demonstration:
+## Demonstration:
 After you flushed all caches, you shold see active and INACTIVE = 0  
 1) Read large file. You will to see INACTIVE growing. Also `vmtouch`  
 ```
