@@ -18,17 +18,17 @@ do
     do
         echo -ne "\033[7m \033[0m"
     done
-    # We need extra space
     echo
+
     echo "INACTIVE: $(echo ${inactive_percentage} | bc)%"
     for ((i=0; i<=inactive_percentage; i++))
     do
         echo -ne "\033[7m \033[0m"
     done
+    echo
 
     if [ "$pgmajfault_new" -gt "$pgmajfault" ]; then
         pgmajfault=$pgmajfault_new
-        echo
         echo "PAGEFAULT!"
     fi
 
