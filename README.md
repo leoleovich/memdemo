@@ -15,7 +15,7 @@ For demonstration, I recommend you to have VM with no load/other services runnin
 ```
 # Install go https://golang.org/doc/install
 terminal1$ go get golang.org/x/exp/mmap
-terminal1$ go build test.go
+terminal1$ go build pgmajfault.go
 ```
 2) Generate small file in any place:  
 ```
