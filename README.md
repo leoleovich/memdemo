@@ -32,7 +32,7 @@ terminal2$ mem.sh
 ## Demonstration:
 1) Run pgmajfault with file as parameter
 ```
-terminal1$ tmp/test.txt
+terminal1$ pgmajfault tmp/test.txt
 ```
 2) Look at output on `mem.sh`. You should see "PAGEFAULT!" message  
 3) Repeat evicting of file from page cache and run pgmajfault again if you missed the output
